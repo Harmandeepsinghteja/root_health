@@ -51,3 +51,24 @@ for imagePath in imagePaths:
 	# update the data and labels lists, respectively
 	data.append(image)
 	labels.append(label)
+
+
+
+# convert the data into a NumPy array, then preprocess it by scaling
+# all pixel intensities to the range [0, 1]
+data = np.array(data, dtype="float") / 255.0
+# reshape the data matrix so that it explicity includes a channel
+# dimension
+data = data.reshape((data.shape[0], data.shape[1], data.shape[2], 1))
+# encode the labels (which are currently strings) as integers
+le = LabelEncoder()
+labels = le.fit_transform(labels)
+# transform the labels into vectors in the range [0, classes],
+# generating a vector for each label, where the index of the label
+# is set to '1' and all other entries are set to '0' -- this process
+# is called "one-hot encoding"
+labels = to_categorical(labels, 2)
+# partition the data into training and testing splits using 60% of
+# the data for training and the remaining 40% for testing
+(trainX, testX, trainY, testY) = train_test_split(data, labels,
+	test_size=0.40, stratify=labels, random_state=42)

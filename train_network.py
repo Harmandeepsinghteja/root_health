@@ -15,7 +15,7 @@ import numpy as np
 import argparse
 import cv2
 import os
-
+from keras.optimizers.schedules import ExponentialDecay
 
 
 
@@ -76,10 +76,23 @@ labels = to_categorical(labels, 2)
 
 
 
+initial_learning_rate = 1e-4
+decay_steps = args["epochs"]
+decay_rate = 0.1
+
+lr_schedule = ExponentialDecay(
+    initial_learning_rate,
+    decay_steps=decay_steps,
+    decay_rate=decay_rate,
+    staircase=True
+)
+
+
+
 
 # initialize the optimizer and model
 print("[INFO] compiling model...")
-opt = Adam(lr=1e-4, decay=1e-4 / args["epochs"])
+opt = Adam(learning_rate=lr_schedule)
 model = SimpleNet.build(width=64, height=64, depth=1,
 	classes=len(le.classes_), reg=l2(0.0002))
 model.compile(loss="binary_crossentropy", optimizer=opt,

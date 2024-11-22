@@ -3,9 +3,9 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dense
-from tensorkflow.keras import MaxPooling2D
+from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras import backend as K
-from tensorflow.keras import Dropout
+from tensorflow.keras.layers import Dropout
 
 
 
@@ -22,9 +22,9 @@ class SimpleNet:
             inputShape = (depth, height, width)
         
         model.add(Conv2D(64, (11,11), input_shape=inputShape,
-            padding="same",kernl=regularizers=reg)
+            padding="same",kernel_regularizer=reg))
         model.add(Activation("relu"))
-        model.addMaxPooling2D(pool_size=(2,2))
+        model.add(MaxPooling2D(pool_size=(2,2)))
         model.add(Dropout(0.25))
 
         model.add(Conv2D(128, (5,5), padding="same", kernel_regularizer=reg))

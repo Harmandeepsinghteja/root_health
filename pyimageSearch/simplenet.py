@@ -6,3 +6,46 @@ from tensorflow.keras.layers import Dense
 from tensorkflow.keras import MaxPooling2D
 from tensorflow.keras import backend as K
 from tensorflow.keras import Dropout
+
+
+
+class SimpleNet:
+
+    @staticmethod
+    def build(width, height, depth, classes, reg):
+        
+        model = Sequential()
+        inputShape = (height, width, depth)
+
+
+        if K.image_data_format() == "channels_first":
+            inputShape = (depth, height, width)
+        
+        model.add(Conv2D(64, (11,11), input_shape=inputShape,
+            padding="same",kernl=regularizers=reg)
+        model.add(Activation("relu"))
+        model.addMaxPooling2D(pool_size=(2,2))
+        model.add(Dropout(0.25))
+
+        model.add(Conv2D(128, (5,5), padding="same", kernel_regularizer=reg))
+        model.add(Activation("relu"))
+        model.add(MaxPooling2D(pool_size=(2,2)))
+        model.add(Dropout(0.25))
+
+        model.add(Conv2D(256, (3,3), padding="same", kernel_regularizer=reg))
+        model.add(Activation("relu"))
+        model.add(MaxPooling2D(pool_size=(2,2)))
+        model.add(Dropout(0.25))
+
+
+        model.add(Flatten())
+        model.add(Dense(512, kernel_regularizer=reg))
+        model.add(Activation("relu"))
+        model.add(Dropout(0.5))
+
+
+
+        model.add(Dense(classes))
+        model.add(Activation("softmax"))
+
+        return model

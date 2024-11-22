@@ -28,3 +28,26 @@ ap.add_argument("-e", "--epochs", type=int, default=100,
 ap.add_argument("-p", "--plot", type=str, default="plot.png",
 	help="path to output loss/accuracy plot")
 args = vars(ap.parse_args())
+
+
+
+
+
+print("[INFO] loading images...")
+imagePaths = list(paths.list_images(args["dataset"]))
+data = []
+labels = []
+
+
+# loop over the image paths
+for imagePath in imagePaths:
+	# extract the class label from the filename
+	label = imagePath.split(os.path.sep)[-2]
+	# load the image, convert it to grayscale, and resize it to be a
+	# fixed 64x64 pixels, ignoring aspect ratio
+	image = cv2.imread(imagePath)
+	image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+	image = cv2.resize(image, (64, 64))
+	# update the data and labels lists, respectively
+	data.append(image)
+	labels.append(label)

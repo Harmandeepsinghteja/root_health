@@ -13,3 +13,14 @@ In particular, roots needed to be classified into two groups:
 “Hairy” roots
 “Non-hairy” roots
 The “hairier” a root is, the better the root can suck up nutrients. The “less hairy” the root is, the fewer nutrients it can intake, potentially leading to the plant starving and dying.
+
+
+Accuracy Report 
+                precision    recall  f1-score   support
+
+    hairy_root       0.68      0.86      0.76       299
+non_hairy_root       0.82      0.61      0.70       311
+
+      accuracy                           0.73       610
+     macro avg       0.75      0.74      0.73       610
+  weighted avg       0.75      0.73      0.73       610
